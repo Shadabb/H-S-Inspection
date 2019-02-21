@@ -36,12 +36,12 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://alm-tfs:8080/tfs/team%20project%20collection
+		SccTeamFoundationServer = 
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Inspection\\Inspection.csproj
 		SccProjectName1 = Inspection
 		SccLocalPath1 = Inspection
-		SccProjectUniqueName2 = Inspection.Test\\Inspection.Test.csproj
+		SccProjectUniqueName2 = 
 		SccProjectName2 = Inspection.Test
 		SccLocalPath2 = Inspection.Test
 	EndGlobalSection
