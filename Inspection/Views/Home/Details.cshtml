@@ -1,0 +1,275 @@
+﻿@model Inspection.ViewModels.InpectionViewModel
+
+@{
+ViewBag.Title = "Details";
+<script id="data" type="text/data-template">
+ @Html.Raw(Json.Encode(Model.InspectionAuditViewModels))
+</script>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <!-- Layer Section-->
+        <div class="layer-section">
+            <!--Section Header-->
+            <div class="section-header">
+                <h2>Inspection Details</h2>
+            </div>
+            <!-- END Section Header -->
+            <!-- Section Content -->
+            <div class="section-content border-bottom">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-8"></div>
+                    <div class="col-sm-3 col-md-2">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-transparent marginBottom-30" })
+                    </div>
+                    <div class="col-sm-3 col-md-2">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Inspections.ID }, new { @class = "btn btn-primary marginBottom-30" })
+                    </div>
+                </div>
+
+                <div class="standardDetails">
+                    <div class="row-details">
+                        <div class="detail-group">
+                            <label class="control-label" for="response-id">@Html.DisplayNameFor(model => model.Inspections.ID)</label>
+                            <p class="control-value" id="response-id">@Html.DisplayFor(model => model.Inspections.ID)</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="created">@Html.DisplayNameFor(model => model.Inspections.InspectionForm)</label>
+                            <p class="control-value" id="created">@Html.DisplayFor(model => model.Inspections.InspectionForm)</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="inv-status">@Html.DisplayNameFor(model => model.Inspections.Created_By)</label>
+                            <p class="control-value" id="inv-status">@Html.DisplayFor(model => model.Inspections.Created_By)</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="event-type">@Html.DisplayNameFor(model => model.Inspections.SiteID)</label>
+                            <p class="control-value" id="event-type">@Html.DisplayFor(model => model.Inspections.SiteID)</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="obs-type">@Html.DisplayNameFor(model => model.Inspections.SiteName)</label>
+                            <p class="control-value" id="obs-type">@Html.DisplayFor(model => model.Inspections.SiteName)</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="obs-date">@Html.DisplayNameFor(model => model.Inspections.InspectionDate)</label>
+                            <p class="control-value" id="obs-date">@Convert.ToDateTime(Model.Inspections.InspectionDate).ToString("dd/MM/yyyy")</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="ww-site">@Html.DisplayNameFor(model => model.Inspections.AreaInspected)</label>
+                            <p class="control-value" id="ww-site">@Html.DisplayFor(model => model.Inspections.AreaInspected)</p>
+                        </div>
+                        <div class="detail-group">
+                            <label class="control-label" for="site-name">@Html.DisplayNameFor(model => model.Inspections.InspectedPerson)</label>
+                            <p class="control-value" id="site-name">@Html.DisplayFor(model => model.Inspections.InspectedPerson)</p>
+                        </div>
+                        @if (Model.Inspections.InspectionForm == "Activity")
+                        {
+                            <div class="detail-group">
+                                <label class="control-label" for="site-id">@Html.DisplayNameFor(model => model.Inspections.ActivityName)</label>
+                                <p class="control-value" id="site-id">@Html.DisplayFor(model => model.Inspections.ActivityName)</p>
+                            </div>
+                        }
+                        <div class="detail-group">
+                            <label class="control-label" for="AreaOfBusiness">@Html.DisplayNameFor(model => model.Inspections.AreaOfBusiness)</label>
+                            <p class="control-value" id="AreaOfBusiness">@Html.DisplayFor(model => model.Inspections.AreaOfBusiness)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Section Content -->
+        </div>
+        <!--End Layer Section-->
+       
+
+        <!-- Layer Section -->
+        <div class="layer-section">
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2>Inspection Extension</h2>
+            </div>
+            <!-- END Section Header -->
+            <!-- Section Content -->                   
+            <div class="section-content">
+                <div class="detail-group full-width uploaded-images noMarginBottom">
+                    @*<label class="control-label">Images Uploaded</label>*@
+                    <div class="row">
+                        @if (Model.InspectionCompliantData.Count() != 0)
+                        {    
+                            <table class="table table-striped table-bordered table-dataTable alignLeft dataTable" style="text-align: center" id="InspectionExtData">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Question</th>
+                                        <th>Answer</th>
+                                        <th>Remarks</th>
+                                        <th>Severity</th>
+                                        <th>Assignee</th>
+                                        <th>DueDate</th>
+                                        <th hidden>InspectionID</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var @item in Model.InspectionCompliantData)
+                                    {
+                                        <tr>
+                                            <td>@item.CompliantNo</td>
+                                            <td>@item.CompliantQues</td>
+                                            <td>@item.Compliant</td>
+                                            <td>@item.Remarks</td>
+                                            <td>@item.Severity</td>
+                                            <td>@item.Assignee</td>
+                                            <td>@item.DueDate</td>
+                                            <td hidden>@Model.Inspections.ID</td>
+                                            <td>
+                                                @if (item.LastModifiedBy != null)
+                                                {
+                                                    <button id="AuditRowbtn" class="btn btn-primary" style="font-size:12px;" onclick="EditRow(@item.CompliantNo)">Info</button>
+                                                } 
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- END Section Content -->
+        </div>
+        <!-- END Layer Section -->
+        
+        @if (Model.InspectionAuditViewModels != null && Model.InspectionAuditViewModels.Count > 0)
+        {
+            <div class="layer-section">
+                <!-- Section Header -->
+                <div class="section-header">
+                    <h2>Audit Details</h2>
+                </div>
+                <!-- END Section Header -->
+                <!-- Section Content -->
+                <div class="section-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" style="text-align:center" id="auditTable" width="100%" height="100%">
+                            <thead>
+                                <tr>
+
+                                    <th style="text-align: center">ID</th>
+                                    <th style="text-align: center">Field Name</th>
+                                    <th style="text-align: center">Old Value</th>
+                                    <th style="text-align: center">New Value</th>
+                                    <th style="text-align: center">Modified Date</th>
+                                    <th style="text-align: center">Modified By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.InspectionAuditViewModels != null && Model.InspectionAuditViewModels.Count > 0)
+                                {
+                                    var count = 1;
+                                    foreach (var item in Model.InspectionAuditViewModels.Where(i => i.TableName == "Inspection"))
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.FiledName</td>
+                                            <td>@item.OldValue</td>
+                                            <td>@item.NewValue</td>
+                                            <td>@item.ModifiedDate</td>
+                                            <td>@item.ModifiedBy</td>
+                                        </tr>
+                                        count++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="modal fade" id="InspectionExtDetailList" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="top:100px; left:-170px; width: 148%">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="section-content">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered nowrap" style="text-align:center" id="AuditDataTables"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var jsonString = $('#data').html();
+    jsonValue = JSON.parse(jsonString);
+    var filterComplaint = $.grep(jsonValue, function (item) { return item.TableName == "InspectionExt" });
+    
+    var result = [];
+    var result1 = [];
+    for (var i = 0; i < filterComplaint.length; i++)
+    {
+        result = [];
+        result.push('' + filterComplaint[i].ID + '');
+        result.push(filterComplaint[i].FiledName);
+        result.push(filterComplaint[i].OldValue);
+        result.push(filterComplaint[i].NewValue);
+        result.push(filterComplaint[i].ModifiedBy);
+        result.push(parseIsoDate(filterComplaint[i].ModifiedDate));
+        result.push('' + filterComplaint[i].CompliantNo + '');
+        result1.push(result);
+    }
+
+
+    var dataTables = $('#AuditDataTables').DataTable({
+        paging: false,
+        data:  result1,
+        sDom: '<"top"><"clear">rt<"bottom"><"clear">',
+        columns: [
+            { title: "ID" },
+            { title: "Filed Name" },
+            { title: "Old Value" },
+            { title: "New Value" },
+            { title: "Modified By" },
+            { title: "Modified Date" },
+            { title: "Answer ID" }
+        ]
+    });
+
+    function parseIsoDate(ModifiedDate) {
+        var value = new Date(
+            parseInt(ModifiedDate.replace(/(^.*\()|([+-].*$)/g, ''))
+        );
+        var hr = value.getHours();
+        var ampm = "AM";
+        if (hr > 12 ) {
+            hr -= 12;
+            ampm = "PM";
+        }
+        var dat = value.getDate() + "/" + (value.getMonth() + 1) + "/" + value.getFullYear() + " " + value.getHours() + ":" + value.getMinutes() + " "+ ampm ;
+        return dat;
+    }
+
+    function EditRow(compliantNo) {
+        
+        var table = $('#AuditDataTables').DataTable();
+        table.columns(6).search("^"+compliantNo+"$",true).draw();
+           
+        $("#InspectionExtDetailList").modal('show');
+    }
+
+    $(document).ready(function () {
+        var tableObs = $("#InspectionExtData");
+        settingsDataTableForInspextionExt.columnDefs = [{ targets: [1, 8], orderable: false }, { targets: 1, className: 'dt-alignLeft' }];
+        $(tableObs).DataTable(settingsDataTableForInspextionExt);
+    });
+
+</script>
+
